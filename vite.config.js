@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  base: '/breakout-game/',
   server: {
     host: true,
     allowedHosts: [
