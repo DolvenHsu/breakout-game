@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Breakout">
+    <link rel="manifest" href="/manifest.json">
+    <title>Neon Breakout</title>
+    <!-- 使用 Google Fonts 'Orbitron' 來增強科技感 -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <div id="game-container">
+      <div id="ui-layer">
+        <div id="start-screen" class="screen">
+          <h1>NEON<br/>BREAKOUT</h1>
+          <p>Touch or Click to Start</p>
+          <button id="start-btn">START GAME</button>
+        </div>
+        <div id="game-over-screen" class="screen hidden">
+          <h1>GAME OVER</h1>
+          <p id="final-score">Score: 0</p>
+          <button id="restart-btn">RETRY</button>
+        </div>
+        <div id="victory-screen" class="screen hidden">
+          <h1>LEVEL CLEARED</h1>
+          <button id="next-level-btn">NEXT LEVEL</button>
+        </div>
+        <div id="hud" class="hidden">
+          <div class="score-container">SCORE: <span id="score">0</span></div>
+          <div class="lives-container">LIVES: <span id="lives">3</span></div>
+        </div>
+      </div>
+      <canvas id="game-canvas"></canvas>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

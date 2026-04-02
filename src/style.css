@@ -1,0 +1,134 @@
+:root {
+  --neon-cyan: #0ff;
+  --neon-magenta: #f0f;
+  --bg-color: #0b0c10;
+  --font-main: "Orbitron", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: white;
+  font-family: var(--font-main);
+  /* 防止手機上的意外捲動 */
+  touch-action: none;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+#game-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 800px; /* 限制 PC 最大寬度 */
+  max-height: 1000px;
+  background: radial-gradient(circle at center, #1f2833 0%, #0b0c10 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+canvas {
+  display: block;
+  z-index: 1;
+}
+
+#ui-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none; /* 讓畫布捕捉事件，除了按鈕 */
+}
+
+/* 控制顯示/隱藏 */
+.hidden {
+  display: none !important;
+}
+
+/* 遊戲開始/結束畫面 */
+.screen {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(11, 12, 16, 0.85);
+  backdrop-filter: blur(5px);
+  pointer-events: auto; /* 允許點擊按鈕 */
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+  letter-spacing: 5px;
+  color: white;
+  text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #c5c6c7;
+  text-shadow: 0 0 5px rgba(255,255,255,0.5);
+}
+
+/* 按鈕樣式 */
+button {
+  font-family: var(--font-main);
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  background: transparent;
+  color: var(--neon-cyan);
+  border: 2px solid var(--neon-cyan);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px inset var(--neon-cyan), 0 0 10px var(--neon-cyan);
+  outline: none;
+}
+
+button:hover {
+  background: var(--neon-cyan);
+  color: var(--bg-color);
+  box-shadow: 0 0 20px inset var(--neon-cyan), 0 0 20px var(--neon-cyan);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* HUD 介面（分數、生命） */
+#hud {
+  position: absolute;
+  top: max(20px, env(safe-area-inset-top));
+  left: max(20px, env(safe-area-inset-left));
+  right: max(20px, env(safe-area-inset-right));
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  color: white;
+  text-shadow: 0 0 5px var(--neon-magenta), 0 0 10px var(--neon-magenta);
+}
+
+@media (max-width: 600px) {
+  h1 { font-size: 2rem; }
+  button { font-size: 1.2rem; padding: 0.8rem 1.5rem; }
+  #hud { font-size: 1.2rem; }
+}
