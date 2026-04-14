@@ -19,6 +19,18 @@ export default class Ball {
     this.dy = -this.speed * Math.cos(angle);
   }
 
+  clone() {
+    const b = new Ball(this.canvas);
+    b.x = this.x;
+    b.y = this.y;
+    b.speed = this.speed;
+    b.baseSpeed = this.baseSpeed;
+    // 鏡射 dx，讓兩球往不同方向散開
+    b.dx = -this.dx;
+    b.dy = this.dy;
+    return b;
+  }
+
   increaseSpeed() {
     // 每次增加一點速度，最多到一個上限
     if (this.speed < 12) {

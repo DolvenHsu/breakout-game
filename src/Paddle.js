@@ -1,7 +1,8 @@
 export default class Paddle {
   constructor(canvas) {
     this.canvas = canvas;
-    this.width = 120;
+    this.originalWidth = 120;
+    this.width = this.originalWidth;
     this.height = 15;
     this.x = canvas.width / 2 - this.width / 2;
     this.y = canvas.height - this.height - 30; // 距離底部 30px
@@ -54,6 +55,41 @@ export default class Paddle {
     }, { passive: false });
   }
 
+  resetSize() {
+    this.width = this.originalWidth;
+    this.x = this.canvas.width / 2 - this.width / 2;
+    this._hitFlash = 0;
+    this._growFlash = 0;
+  }
+
+  grow() {
+    const maxWidth = this.canvas.width * 0.6;
+    const newWidth = Math.min(maxWidth, this.width * 1.25);
+    const cx = this.x + this.width / 2;
+    this.width = newWidth;
+    this.x = cx - this.width / 2;
+    if (this.x < 0) this.x = 0;
+    if (this.x + this.width > this.canvas.width) this.x = this.canvas.width - this.width;
+
+    // 閃爍綠色效果
+    this._growFlash = 300; // ms
+  }
+
+  shrink() {
+    const minWidth = 40;
+    const newWidth = Math.max(minWidth, this.width * 0.5);
+    // 保持中心點不變
+    const cx = this.x + this.width / 2;
+    this.width = newWidth;
+    this.x = cx - this.width / 2;
+    // 邊界修正
+    if (this.x < 0) this.x = 0;
+    if (this.x + this.width > this.canvas.width) this.x = this.canvas.width - this.width;
+
+    // 閃爍警告效果
+    this._hitFlash = 300; // ms
+  }
+
   update(deltaTime) {
     if (this.rightPressed) {
       this.x += this.speed * (deltaTime / 16); // 標準化速度
@@ -66,18 +102,23 @@ export default class Paddle {
     if (this.x + this.width > this.canvas.width) {
       this.x = this.canvas.width - this.width;
     }
+
+    if (this._hitFlash > 0) this._hitFlash -= deltaTime;
+    if (this._growFlash > 0) this._growFlash -= deltaTime;
   }
 
   draw(ctx) {
-    // 發光效果與漸層
+    const isHitFlash  = this._hitFlash  > 0 && Math.floor(this._hitFlash  / 60) % 2 === 0;
+    const isGrowFlash = this._growFlash > 0 && Math.floor(this._growFlash / 60) % 2 === 0;
+    const color = isHitFlash ? '#ff4400' : isGrowFlash ? '#00ff88' : '#0ff';
+
     ctx.shadowBlur = 15;
-    ctx.shadowColor = "#0ff";
-    ctx.fillStyle = "#0ff";
+    ctx.shadowColor = color;
+    ctx.fillStyle = color;
     ctx.beginPath();
-    // 繪製圓角矩形
     ctx.roundRect(this.x, this.y, this.width, this.height, 5);
     ctx.fill();
     ctx.closePath();
-    ctx.shadowBlur = 0; // 重置發光
+    ctx.shadowBlur = 0;
   }
 }
